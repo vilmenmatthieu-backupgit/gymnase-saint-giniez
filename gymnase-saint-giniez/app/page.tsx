@@ -18,23 +18,23 @@ export default function Page() {
   return (
     <div className="page">
       <header className="topbar">
-        <a href="#accueil" className="brand">
-          <span className="brand__logo">🏋️</span>
-          <span>{BRAND.name}</span>
-        </a>
-        <nav className="nav">
-          <a href="#equipe">Équipe</a>
-          <a href="#contact">Contact</a>
-        </nav>
-        <a className="btn" href="#contact">Nous contacter →</a>
+        <div className="topbar__inner">
+          <a href="#accueil" className="brand">
+            <span className="brand__logo">🏋️</span>
+            <span>{BRAND.name}</span>
+          </a>
+          <nav className="nav">
+            <a href="#equipe">Équipe</a>
+            <a href="#contact">Contact</a>
+          </nav>
+          <a className="btn" href="#contact">Nous contacter →</a>
+        </div>
       </header>
 
       <section id="accueil" className="hero">
         <div className="hero__inner">
           <div>
-            <h1>
-              Bienvenue au <span className="hero__brand">{BRAND.name}</span>
-            </h1>
+            <h1>Bienvenue au <span className="hero__brand">{BRAND.name}</span></h1>
             <p className="muted">
               Salle de sport de quartier — esprit bleu-blanc, entraînement sérieux, ambiance conviviale.
             </p>
