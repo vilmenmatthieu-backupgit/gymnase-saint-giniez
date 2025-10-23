@@ -1,211 +1,158 @@
 import React, { useState } from "react";
+import {
+  Box, Container, Flex, Grid, GridItem, Heading, Text, Button, Badge,
+  HStack, VStack, Icon, Link, useBreakpointValue, Card, CardBody, Circle
+} from "@chakra-ui/react";
 import { motion, LayoutGroup } from "framer-motion";
 import { Dumbbell, Phone, Mail, MapPin, ChevronRight } from "lucide-react";
 
-// --- Brand tokens ---
-const BRAND = {
-  name: "Gymnase Saint Giniez",
-};
+const MotionBox = motion(Box);
+const MotionCard = motion(Card);
 
-// --- Données de l'équipe ---
+const BRAND = { name: "Gymnase Saint Giniez" };
+
 const people = [
-  {
-    id: "anthony",
-    name: "Anthony",
-    role: "Co-gérant & Coach",
-    initials: "AN",
-    desc:
-      "Passionné de préparation physique et de force, Anthony supervise la programmation et l'expérience globale des adhérents.",
-  },
-  {
-    id: "alicia",
-    name: "Alicia",
-    role: "Co-gérante & Coach",
-    initials: "AL",
-    desc:
-      "Spécialiste bien-être et accueil, Alicia veille au suivi des membres et à la qualité du service.",
-  },
-  {
-    id: "deborah",
-    name: "Déborah",
-    role: "Co-gérante & Coach",
-    initials: "DB",
-    desc:
-      "Organisation, plannings et accompagnement : Déborah s'assure que tout roule côté opérationnel et sportif.",
-  },
-  {
-    id: "anis",
-    name: "Anis",
-    role: "Co-gérant & Coach",
-    initials: "AS",
-    desc:
-      "Coach diplômé et co-gérant, Anis encadre les séances techniques et les parcours de progression des adhérents.",
-  },
+  { id: "anthony", name: "Anthony", role: "Co-gérant & Coach", initials: "AN",
+    desc: "Passionné de préparation physique et de force, Anthony supervise la programmation et l'expérience globale des adhérents." },
+  { id: "alicia", name: "Alicia", role: "Co-gérante & Coach", initials: "AL",
+    desc: "Spécialiste bien-être et accueil, Alicia veille au suivi des membres et à la qualité du service." },
+  { id: "deborah", name: "Déborah", role: "Co-gérante & Coach", initials: "DB",
+    desc: "Organisation, plannings et accompagnement : Déborah s'assure que tout roule côté opérationnel et sportif." },
+  { id: "anis", name: "Anis", role: "Co-gérant & Coach", initials: "AS",
+    desc: "Coach diplômé et co-gérant, Anis encadre les séances techniques et les parcours de progression des adhérents." },
 ];
 
-// --- Composant d'une carte profil ---
 function ProfileCard({ person, activeId, setActiveId }) {
   const active = activeId === person.id;
   return (
-    <motion.button
+    <MotionCard
       layout
+      as="button"
       onClick={() => setActiveId(active ? null : person.id)}
-      className={[
-        "relative rounded-2xl border bg-white p-6 text-left shadow-sm transition",
-        "hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600",
-        active ? "md:col-span-4" : "md:col-span-1",
-      ].join(" ")}
+      initial={{ opacity: 0, y: 10 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.25 }}
+      variant="outline"
+      _hover={{ shadow: "md" }}
+      borderRadius="2xl"
     >
-      <motion.div layout className="flex items-center gap-4">
-        <div className="grid h-16 w-16 place-items-center rounded-full bg-blue-600 text-white text-xl font-semibold">
-          {person.initials}
-        </div>
-        <div>
-          <h3 className="text-lg font-semibold text-slate-900">{person.name}</h3>
-          <p className="text-slate-600">{person.role}</p>
-        </div>
-      </motion.div>
+      <CardBody>
+        <HStack align="center" spacing={4}>
+          <Circle size="64px" bg="brand.600" color="white" fontWeight="semibold">
+            {person.initials}
+          </Circle>
+          <Box textAlign="left">
+            <Heading as="h3" size="md">{person.name}</Heading>
+            <Text color="gray.600">{person.role}</Text>
+          </Box>
+        </HStack>
 
-      <motion.div
-        layout
-        initial={false}
-        animate={{ height: active ? "auto" : 0, opacity: active ? 1 : 0 }}
-        className="overflow-hidden"
-      >
-        <div className="mt-4 text-slate-700">
-          <p>{person.desc}</p>
-        </div>
-      </motion.div>
-
-      <motion.div
-        layout
-        animate={{ scale: active ? 1.02 : 1 }}
-        className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-black/5"
-      />
-    </motion.button>
+        <MotionBox
+          layout
+          initial={false}
+          animate={{ height: active ? "auto" : 0, opacity: active ? 1 : 0 }}
+          overflow="hidden"
+        >
+          <Text mt={4} color="gray.700">{person.desc}</Text>
+        </MotionBox>
+      </CardBody>
+    </MotionCard>
   );
 }
 
-// --- Composant principal ---
 export default function App() {
   const [activeId, setActiveId] = useState(null);
+  const cols = useBreakpointValue({ base: 1, md: 4 });
 
   return (
-    <div className="min-h-screen bg-white text-slate-900">
+    <Box minH="100vh" bg="white" color="gray.900">
       {/* Header */}
-      <header className="sticky top-0 z-40 border-b bg-white/80 backdrop-blur">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
-          <a href="#accueil" className="flex items-center gap-2 font-semibold">
-            <span className="grid h-9 w-9 place-items-center rounded-lg bg-blue-600 text-white">
-              <Dumbbell size={18} />
-            </span>
-            <span>{BRAND.name}</span>
-          </a>
-          <nav className="hidden gap-6 md:flex">
-            <a href="#equipe" className="text-slate-700 hover:text-blue-700">
-              Équipe
-            </a>
-            <a href="#contact" className="text-slate-700 hover:text-blue-700">
-              Contact
-            </a>
-          </nav>
-          <a
-            href="#contact"
-            className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2 text-white shadow hover:bg-blue-700"
-          >
-            Nous contacter <ChevronRight size={18} />
-          </a>
-        </div>
-      </header>
+      <Box as="header" position="sticky" top={0} zIndex={10} borderBottom="1px" borderColor="gray.200" bg="white" backdropFilter="saturate(180%) blur(6px)">
+        <Container maxW="6xl" py={3}>
+          <Flex align="center" justify="space-between">
+            <HStack as={Link} href="#accueil" fontWeight="semibold" spacing={2}>
+              <Circle size="36px" bg="brand.600" color="white">
+                <Icon as={Dumbbell} boxSize={4} />
+              </Circle>
+              <Text>{BRAND.name}</Text>
+            </HStack>
+            <HStack spacing={6} display={{ base: "none", md: "flex" }}>
+              <Link href="#equipe" _hover={{ color: "brand.600" }}>Équipe</Link>
+              <Link href="#contact" _hover={{ color: "brand.600" }}>Contact</Link>
+            </HStack>
+            <Button as={Link} href="#contact" rightIcon={<Icon as={ChevronRight} />} colorScheme="blue" borderRadius="xl">
+              Nous contacter
+            </Button>
+          </Flex>
+        </Container>
+      </Box>
 
       {/* Hero */}
-      <section
-        id="accueil"
-        className="border-b bg-gradient-to-b from-blue-50 to-white"
-      >
-        <div className="mx-auto grid max-w-6xl gap-6 px-4 py-16 md:grid-cols-2 md:items-center">
-          <div>
-            <h1 className="text-3xl font-bold sm:text-4xl">
-              Bienvenue au <span className="text-blue-700">{BRAND.name}</span>
-            </h1>
-            <p className="mt-4 text-slate-600">
-              Salle de sport de quartier — esprit bleu-blanc, entraînement
-              sérieux, ambiance conviviale.
-            </p>
-            <div className="mt-6 flex flex-wrap gap-3">
-              <span className="rounded-full border bg-white/70 px-4 py-1 text-sm shadow-sm">
-                Coaching
-              </span>
-              <span className="rounded-full border bg-white/70 px-4 py-1 text-sm shadow-sm">
-                Préparation physique
-              </span>
-              <span className="rounded-full border bg-white/70 px-4 py-1 text-sm shadow-sm">
-                Remise en forme
-              </span>
-            </div>
-          </div>
-          <div className="rounded-2xl border bg-white p-6 shadow-sm">
-            <div className="aspect-[4/3] w-full rounded-xl bg-gradient-to-tr from-blue-600 to-blue-400" />
-          </div>
-        </div>
-      </section>
+      <Box as="section" id="accueil" borderBottom="1px" borderColor="gray.100" bgGradient="linear(to-b, blue.50, white)">
+        <Container maxW="6xl" py={16}>
+          <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={6} alignItems="center">
+            <Box>
+              <Heading as="h1" size="2xl">
+                Bienvenue au <Text as="span" color="brand.600">{BRAND.name}</Text>
+              </Heading>
+              <Text mt={4} color="gray.600">
+                Salle de sport de quartier — esprit bleu-blanc, entraînement sérieux, ambiance conviviale.
+              </Text>
+              <HStack mt={6} spacing={3} wrap="wrap">
+                <Badge px={3} py={1} borderRadius="full" variant="subtle">Coaching</Badge>
+                <Badge px={3} py={1} borderRadius="full" variant="subtle">Préparation physique</Badge>
+                <Badge px={3} py={1} borderRadius="full" variant="subtle">Remise en forme</Badge>
+              </HStack>
+            </Box>
+            <Box border="1px" borderColor="gray.200" p={6} borderRadius="2xl" boxShadow="sm" bg="white">
+              <Box w="100%" pt="75%" borderRadius="xl" bgGradient="linear(to-tr, brand.600, brand.500)" />
+            </Box>
+          </Grid>
+        </Container>
+      </Box>
 
       {/* Équipe */}
-      <section id="equipe" className="mx-auto max-w-6xl px-4 py-16">
-        <div className="mb-8 flex items-end justify-between">
-          <div>
-            <h2 className="text-2xl font-semibold">L'équipe dirigeante</h2>
-            <p className="text-slate-600">
-              Cliquez sur un profil pour afficher sa description. Les cartes
-              s'agrandissent (zoom) et dévoilent le texte.
-            </p>
-          </div>
-        </div>
+      <Box as="section" id="equipe">
+        <Container maxW="6xl" py={16}>
+          <Box mb={8}>
+            <Heading as="h2" size="lg">L'équipe dirigeante</Heading>
+            <Text color="gray.600">Cliquez sur un profil pour afficher sa description. Les cartes s'agrandissent (zoom) et dévoilent le texte.</Text>
+          </Box>
 
-        <LayoutGroup>
-          <motion.div layout className="grid grid-cols-1 gap-6 md:grid-cols-4">
-            {people.map((p) => (
-              <ProfileCard
-                key={p.id}
-                person={p}
-                activeId={activeId}
-                setActiveId={setActiveId}
-              />
-            ))}
-          </motion.div>
-        </LayoutGroup>
-      </section>
+          <LayoutGroup>
+            <Grid templateColumns={`repeat(${cols ?? 1}, 1fr)`} gap={6}>
+              {people.map((p) => (
+                <GridItem key={p.id}>
+                  <ProfileCard person={p} activeId={activeId} setActiveId={setActiveId} />
+                </GridItem>
+              ))}
+            </Grid>
+          </LayoutGroup>
+        </Container>
+      </Box>
 
       {/* Contact */}
-      <section id="contact" className="border-t bg-blue-50/40">
-        <div className="mx-auto max-w-6xl px-4 py-16">
-          <h2 className="text-2xl font-semibold">Contact</h2>
-          <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            <a
-              className="flex items-center gap-3 rounded-xl border bg-white p-4 shadow-sm"
-              href="tel:+33000000000"
-            >
-              <Phone size={18} /> 04 00 00 00 00
-            </a>
-            <a
-              className="flex items-center gap-3 rounded-xl border bg-white p-4 shadow-sm"
-              href="mailto:contact@gymnase-saint-giniez.fr"
-            >
-              <Mail size={18} /> contact@gymnase-saint-giniez.fr
-            </a>
-            <div className="flex items-center gap-3 rounded-xl border bg-white p-4 shadow-sm">
-              <MapPin size={18} /> 13008 Marseille
-            </div>
-          </div>
-        </div>
-      </section>
+      <Box as="section" id="contact" bg="blue.50">
+        <Container maxW="6xl" py={16}>
+          <Heading as="h2" size="lg">Contact</Heading>
+          <Grid mt={6} gap={4} templateColumns={{ base: "1fr", sm: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" }}>
+            <Button as={Link} href="tel:+33000000000" variant="outline" leftIcon={<Icon as={Phone} />}>04 00 00 00 00</Button>
+            <Button as={Link} href="mailto:contact@gymnase-saint-giniez.fr" variant="outline" leftIcon={<Icon as={Mail} />}>contact@gymnase-saint-giniez.fr</Button>
+            <Flex align="center" p={4} border="1px" borderColor="gray.200" borderRadius="xl" bg="white" gap={3}>
+              <Icon as={MapPin} />
+              <Text>13008 Marseille</Text>
+            </Flex>
+          </Grid>
+        </Container>
+      </Box>
 
       {/* Footer */}
-      <footer className="border-t bg-white">
-        <div className="mx-auto max-w-6xl px-4 py-8 text-sm text-slate-500">
-          © {new Date().getFullYear()} {BRAND.name} — Tous droits réservés.
-        </div>
-      </footer>
-    </div>
+      <Box as="footer" borderTop="1px" borderColor="gray.100">
+        <Container maxW="6xl" py={8}>
+          <Text color="gray.600">© {new Date().getFullYear()} {BRAND.name} — Tous droits réservés.</Text>
+        </Container>
+      </Box>
+    </Box>
   );
 }
