@@ -7,11 +7,12 @@ const BRAND = {
   name: "Gymnase Saint Giniez",
 };
 
+// --- Données de l'équipe ---
 const people = [
   {
     id: "anthony",
     name: "Anthony",
-    role: "Co‑gérant",
+    role: "Co-gérant & Coach",
     initials: "AN",
     desc:
       "Passionné de préparation physique et de force, Anthony supervise la programmation et l'expérience globale des adhérents.",
@@ -19,29 +20,30 @@ const people = [
   {
     id: "alicia",
     name: "Alicia",
-    role: "Co‑gérante",
+    role: "Co-gérante & Coach",
     initials: "AL",
     desc:
-      "Spécialiste bien‑être et accueil, Alicia veille au suivi des membres et à la qualité du service.",
+      "Spécialiste bien-être et accueil, Alicia veille au suivi des membres et à la qualité du service.",
   },
   {
     id: "deborah",
     name: "Déborah",
-    role: "Responsable",
+    role: "Co-gérante & Coach",
     initials: "DB",
     desc:
-      "Organisation, plannings et partenariats : Déborah s'assure que tout roule côté opérationnel.",
+      "Organisation, plannings et accompagnement : Déborah s'assure que tout roule côté opérationnel et sportif.",
   },
   {
     id: "anis",
     name: "Anis",
-    role: "Coach principal",
+    role: "Co-gérant & Coach",
     initials: "AS",
     desc:
-      "Coach diplômé, Anis encadre les séances techniques et les parcours de progression.",
+      "Coach diplômé et co-gérant, Anis encadre les séances techniques et les parcours de progression des adhérents.",
   },
 ];
 
+// --- Composant d'une carte profil ---
 function ProfileCard({ person, activeId, setActiveId }) {
   const active = activeId === person.id;
   return (
@@ -84,7 +86,8 @@ function ProfileCard({ person, activeId, setActiveId }) {
   );
 }
 
-export default function Landing() {
+// --- Composant principal ---
+export default function App() {
   const [activeId, setActiveId] = useState(null);
 
   return (
@@ -99,8 +102,12 @@ export default function Landing() {
             <span>{BRAND.name}</span>
           </a>
           <nav className="hidden gap-6 md:flex">
-            <a href="#equipe" className="text-slate-700 hover:text-blue-700">Équipe</a>
-            <a href="#contact" className="text-slate-700 hover:text-blue-700">Contact</a>
+            <a href="#equipe" className="text-slate-700 hover:text-blue-700">
+              Équipe
+            </a>
+            <a href="#contact" className="text-slate-700 hover:text-blue-700">
+              Contact
+            </a>
           </nav>
           <a
             href="#contact"
@@ -112,20 +119,29 @@ export default function Landing() {
       </header>
 
       {/* Hero */}
-      <section id="accueil" className="border-b bg-gradient-to-b from-blue-50 to-white">
+      <section
+        id="accueil"
+        className="border-b bg-gradient-to-b from-blue-50 to-white"
+      >
         <div className="mx-auto grid max-w-6xl gap-6 px-4 py-16 md:grid-cols-2 md:items-center">
           <div>
             <h1 className="text-3xl font-bold sm:text-4xl">
               Bienvenue au <span className="text-blue-700">{BRAND.name}</span>
             </h1>
             <p className="mt-4 text-slate-600">
-              Salle de sport de quartier — esprit bleu‑blanc, entraînement sérieux,
-              ambiance conviviale.
+              Salle de sport de quartier — esprit bleu-blanc, entraînement
+              sérieux, ambiance conviviale.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
-              <span className="rounded-full border bg-white/70 px-4 py-1 text-sm shadow-sm">Coaching</span>
-              <span className="rounded-full border bg-white/70 px-4 py-1 text-sm shadow-sm">Préparation physique</span>
-              <span className="rounded-full border bg-white/70 px-4 py-1 text-sm shadow-sm">Remise en forme</span>
+              <span className="rounded-full border bg-white/70 px-4 py-1 text-sm shadow-sm">
+                Coaching
+              </span>
+              <span className="rounded-full border bg-white/70 px-4 py-1 text-sm shadow-sm">
+                Préparation physique
+              </span>
+              <span className="rounded-full border bg-white/70 px-4 py-1 text-sm shadow-sm">
+                Remise en forme
+              </span>
             </div>
           </div>
           <div className="rounded-2xl border bg-white p-6 shadow-sm">
@@ -139,7 +155,10 @@ export default function Landing() {
         <div className="mb-8 flex items-end justify-between">
           <div>
             <h2 className="text-2xl font-semibold">L'équipe dirigeante</h2>
-            <p className="text-slate-600">Cliquez sur un profil pour afficher sa description. Les cartes s'agrandissent (zoom) et dévoilent le texte.</p>
+            <p className="text-slate-600">
+              Cliquez sur un profil pour afficher sa description. Les cartes
+              s'agrandissent (zoom) et dévoilent le texte.
+            </p>
           </div>
         </div>
 
@@ -162,10 +181,16 @@ export default function Landing() {
         <div className="mx-auto max-w-6xl px-4 py-16">
           <h2 className="text-2xl font-semibold">Contact</h2>
           <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            <a className="flex items-center gap-3 rounded-xl border bg-white p-4 shadow-sm" href="tel:+33000000000">
+            <a
+              className="flex items-center gap-3 rounded-xl border bg-white p-4 shadow-sm"
+              href="tel:+33000000000"
+            >
               <Phone size={18} /> 04 00 00 00 00
             </a>
-            <a className="flex items-center gap-3 rounded-xl border bg-white p-4 shadow-sm" href="mailto:contact@gymnase-saint-giniez.fr">
+            <a
+              className="flex items-center gap-3 rounded-xl border bg-white p-4 shadow-sm"
+              href="mailto:contact@gymnase-saint-giniez.fr"
+            >
               <Mail size={18} /> contact@gymnase-saint-giniez.fr
             </a>
             <div className="flex items-center gap-3 rounded-xl border bg-white p-4 shadow-sm">
@@ -175,6 +200,7 @@ export default function Landing() {
         </div>
       </section>
 
+      {/* Footer */}
       <footer className="border-t bg-white">
         <div className="mx-auto max-w-6xl px-4 py-8 text-sm text-slate-500">
           © {new Date().getFullYear()} {BRAND.name} — Tous droits réservés.
